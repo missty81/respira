@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#f2f6fb">
+<title>Respira — Pantau Kualitas Udara</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ikon -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 1.5c-4.7 0-8.5 3.7-8.5 8.3 0 5.600 6.200 11.100 7.800 12.400.4.300 1 .300 1.400 0 1.600-1.300 7.800-6.800 7.800-12.400 0-4.600-3.800-8.300-8.500-8.300Zm0 11.300a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></symbol>
+    <symbol id="i-pin-o" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 2.500c-4.100 0-7.500 3.300-7.500 7.400 0 4.900 5.300 9.700 7 11.100.3.200.7.200 1 0 1.700-1.400 7-6.200 7-11.100 0-4.100-3.400-7.400-7.500-7.400Z"/><circle cx="12" cy="10" r="2.600" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" d="M6 16.500V11a6 6 0 1 1 12 0v5.500l1.500 2h-15l1.500-2ZM10 21h4"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.300 1.800 11.200h2.700V21h5.800v-6h3.400v6h5.800v-9.800h2.700L12 2.300Z"/></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.200" stroke-linejoin="round" d="M3 8.500A2.500 2.500 0 0 1 5.500 6h2L9 3.800h6L16.500 6h2A2.500 2.500 0 0 1 21 8.500v9a2.500 2.500 0 0 1-2.500 2.500h-13A2.500 2.500 0 0 1 3 17.500v-9Z"/><circle cx="12" cy="13" r="3.600" fill="none" stroke="currentColor" stroke-width="2.200"/><circle cx="17.600" cy="9.400" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="7.500" r="4" fill="none" stroke="currentColor" stroke-width="2.300"/><path fill="none" stroke="currentColor" stroke-width="2.300" stroke-linejoin="round" d="M4.500 20.500c0-3.300 2.700-5.500 5.500-5.500h4c2.800 0 5.500 2.200 5.500 5.500h-15Z"/></symbol>
+    <symbol id="i-mask" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" d="M6 8.500c2-.3 4-1.500 6-1.500s4 1.200 6 1.500v5c0 2-3 4-6 4s-6-2-6-4v-5ZM6 10H4.500a2 2 0 0 0 0 4H6m12-4h1.500a2 2 0 0 1 0 4H18M9.500 11h5m-5 2.500h5"/></symbol>
+    <symbol id="i-temp" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 4.500a2.500 2.500 0 0 1 5 0v9.200a4.500 4.500 0 1 1-5 0V4.500ZM11.500 9v8M17 5h4m-4 4h3m-3 4h4"/><circle cx="11.500" cy="17.300" r="1.800" fill="currentColor"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2s7.500 7.700 7.500 13A7.500 7.500 0 0 1 4.500 15C4.500 9.700 12 2 12 2Z"/></symbol>
+    <symbol id="i-wind" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" d="M2 8h11a3 3 0 1 0-3-3M2 12h16.500a3 3 0 1 1-3 3M2 16h8a2.500 2.500 0 1 1-2.500 2.500"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="currentColor"/><path stroke="currentColor" stroke-width="2.200" stroke-linecap="round" d="M12 1.800v2.400m0 15.600v2.400M1.800 12h2.400m15.600 0h2.400M4.800 4.800l1.700 1.700m11 11 1.700 1.700m0-14.400-1.700 1.700m-11 11-1.700 1.700"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.800"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 11v6"/><circle cx="12" cy="7.600" r="1.200" fill="currentColor"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.500" fill="none" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m16 16 4.500 4.500"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M7 12h10m-7 5h4"/></symbol>
+    <symbol id="i-antenna" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" d="M12 11v9M8.500 13.500a4.500 4.500 0 0 1 0-6m7 0a4.500 4.500 0 0 1 0 6M5.800 16a8.300 8.300 0 0 1 0-11m12.400 0a8.300 8.300 0 0 1 0 11"/><circle cx="12" cy="10.500" r="1.600" fill="currentColor"/></symbol>
+    <symbol id="i-nav" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.500 20 20l-8-4-8 4 8-17.500Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.500" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" d="M7.500 10V7.500a4.500 4.500 0 0 1 9 0V10"/><circle cx="12" cy="15" r="1.600" fill="currentColor"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.500" width="18" height="13" rx="1.500" fill="none" stroke="currentColor" stroke-width="1.700"/><path fill="none" stroke="currentColor" stroke-width="1.700" d="m3.500 6.500 8.500 6.500 8.500-6.500M3.500 18l6.200-6m10.800 6-6.200-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.600 2.500 9.800 3l1.300 4.600-2.300 1.900c1.200 2.500 3.200 4.500 5.700 5.700l1.900-2.300 4.600 1.300.5 3.200c.2 1.500-1 2.900-2.600 2.900C10.300 20.300 3.700 13.700 3.700 5.100c0-1.600 1.400-2.800 2.900-2.600Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.800" stroke-linejoin="round" d="M12 2.500 20 5v6.500c0 5-3.500 8.500-8 10-4.500-1.500-8-5-8-10V5l8-2.500Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m8.500 12 2.500 2.500 4.500-5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="m5 12.500 4.500 4.500L19 7.500"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.200c.7 0 1.300.4 1.700 1l8.800 15.300c.7 1.300-.2 2.900-1.700 2.900H3.200c-1.500 0-2.400-1.600-1.700-2.900L10.300 3.200c.4-.6 1-1 1.700-1Z"/><path stroke="#fff" stroke-width="2.200" stroke-linecap="round" d="M12 8.500v5.500"/><circle cx="12" cy="17.400" r="1.300" fill="#fff"/></symbol>
+    <symbol id="i-thumb" viewBox="0 0 24 24"><path fill="currentColor" d="M2 10.500h4.500V21H2V10.500Zm6 0 4-8c1.700 0 3 1.300 3 3V9h5c1.300 0 2.300 1.200 2 2.500l-1.500 7.500c-.2 1.200-1.200 2-2.400 2H8V10.500Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#dfe4ea" stroke="#9aa5b1" stroke-width="1.500"/><path fill="none" stroke="#5f6b7a" stroke-width="1.800" stroke-linecap="round" d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 9h12l-3-3M17 15H5l3 3"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m19.400 13.500 1.600 1.200-2 3.400-1.900-.7a7 7 0 0 1-2.200 1.300L14.500 21h-4l-.4-2.300a7 7 0 0 1-2.200-1.300l-1.900.7-2-3.400 1.600-1.200a7 7 0 0 1 0-2.500L4 9.300l2-3.400 1.900.7a7 7 0 0 1 2.200-1.300L10.500 3h4l.4 2.300a7 7 0 0 1 2.200 1.300l1.900-.7 2 3.400-1.600 1.200a7 7 0 0 1 0 3Z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m4 20 1-4.500L16.500 4l3.500 3.500L8.500 19 4 20Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.600" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-flip" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 0 1 14-5.300L20 9m0-5v5h-5m5 3a8 8 0 0 1-14 5.300L4 15m0 5v-5h5"/></symbol>
+    <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="1.800" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m4 17 5-4 4 3 3-2.500 4.500 3.500"/></symbol>
+    <symbol id="i-turn" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round" d="M17 21v-9a3 3 0 0 0-3-3H5m4.500-4.500L5 9l4.500 4.500"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.900" stroke-linejoin="round" d="M6 3h9l4 4v14H6V3Zm3 9h7m-7 4h7M9 8h3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.900" stroke-linejoin="round" d="M4 5.500c2.500-1 5.500-1 8 .500 2.500-1.500 5.500-1.500 8-.500v13c-2.500-1-5.500-1-8 .500-2.500-1.500-5.500-1.500-8-.500v-13Zm8 .500v13"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7.500" ry="3" fill="none" stroke="currentColor" stroke-width="1.900"/><path fill="none" stroke="currentColor" stroke-width="1.900" d="M4.500 6v12c0 1.700 3.400 3 7.500 3s7.500-1.300 7.500-3V6M4.500 12c0 1.700 3.400 3 7.500 3s7.500-1.300 7.500-3"/></symbol>
+    <symbol id="i-fire" viewBox="0 0 24 24"><path fill="currentColor" d="M12.500 2c.5 3.500 5.500 5.500 5.500 11.500a6 6 0 0 1-12 0c0-2.500 1.200-4.300 2.500-5.500.3 1.500 1 2.500 2 3 0-3.500.5-6.500 2-9Z"/></symbol>
+  </defs>
+</svg>
+
+<div id="stage">
+<div id="app">
+  <div class="statusbar"><b>9:41</b><span class="sb-r"><i class="sig"></i><i class="wifi"></i><i class="bat"></i></span></div>
+
+  <!-- ============ SPLASH ============ -->
+  <section class="screen grad on" id="splash">
+    <div class="splash-logo"><img src="assets/logo.png" alt="Respira"><div class="word big">respira</div></div>
+    <img class="splash-city" src="assets/city.png" alt="">
+    <div class="splash-bottom">
+      <p class="tag">Pantau <b>Kualitas Udara</b>,<br>lindungi kesehatanmu</p>
+      <button class="btn pill" data-go="onb">Mulai Sekarang</button>
+    </div>
+  </section>
+
+  <!-- ============ ONBOARDING ============ -->
+  <section class="screen grad" id="onb">
+    <a class="skip" data-go="signin">Lewati</a>
+    <div class="onb-brand"><img src="assets/logo.png" alt=""><span class="word">respira</span></div>
+    <div class="onb-track" id="onbTrack">
+      <div class="onb-slide"><img src="assets/onb1.png" alt=""></div>
+      <div class="onb-slide"><img src="assets/onb2.png" alt=""></div>
+      <div class="onb-slide"><img src="assets/onb3.png" alt=""></div>
+    </div>
+    <div class="dots" id="onbDots"><i class="on"></i><i></i><i></i></div>
+    <p class="onb-text" id="onbText">Dapatkan Informasi kualitas udara terkini di lokasi anda dan sekitarnya</p>
+    <div class="onb-actions">
+      <button class="btn pill" data-go="signup1">Daftar Sekarang</button>
+      <div class="or small"><span>Atau</span></div>
+      <button class="btn pill ghost" data-go="signin">Sudah punya akun? Masuk</button>
+    </div>
+  </section>
+
+  <!-- ============ SIGN UP 1 ============ -->
+  <section class="screen grad" id="signup1">
+    <div class="body pad">
+      <h1 class="blue">Mulai Bersama respira</h1>
+      <p class="sub">Daftar untuk mulai menggunakan respira</p>
+      <label class="lbl">Nama Lengkap</label>
+      <div class="field"><svg><use href="#i-user"/></svg><input id="regName" placeholder="Masukkan Nama Lengkap" autocomplete="name"></div>
+      <label class="lbl">Email</label>
+      <div class="field"><svg><use href="#i-mail"/></svg><input type="email" placeholder="Masukkan Email" autocomplete="email"></div>
+      <label class="lbl">Nomor HP</label>
+      <div class="field"><svg><use href="#i-phone"/></svg><input type="tel" placeholder="08xxxxxxxxxxxx"></div>
+      <label class="lbl">Kata Sandi</label>
+      <div class="field"><svg><use href="#i-lock"/></svg><input type="password" placeholder="Buat kata sandi"></div>
+      <p class="hint">Minimal 8 karakter dengan kombinasi huruf dan angka</p>
+      <label class="lbl">Konfirmasi ulang kata sandi</label>
+      <div class="field"><svg><use href="#i-lock"/></svg><input type="password" placeholder="Buat kata sandi"></div>
+      <label class="agree"><input type="checkbox" checked><i><svg><use href="#i-check"/></svg></i>Agree to Terms &amp; Conditions</label>
+      <button class="btn next" data-go="signup2">Lanjutkan<span><svg><use href="#i-arrow"/></svg></span></button>
+      <p class="alt">Sudah punya akun? <a data-go="signin">Masuk</a></p>
+    </div>
+  </section>
+
+  <!-- ============ SIGN UP 2 ============ -->
+  <section class="screen grad" id="signup2">
+    <div class="body pad">
+      <a class="backlink" data-back><svg><use href="#i-back"/></svg></a>
+      <h1>Informasi Diri</h1>
+      <p class="sub">Lengkapi informasi berikut</p>
+      <label class="lbl">Usia</label>
+      <div class="field sel"><select><option>18 Tahun</option><option>20 Tahun</option><option selected>25 Tahun</option><option>30 Tahun</option><option>35 Tahun</option><option>40 Tahun</option><option>50 Tahun</option><option>60 Tahun</option></select><svg class="r"><use href="#i-down"/></svg></div>
+      <label class="lbl">Jenis Kelamin</label>
+      <div class="radios row"><label><input type="radio" name="jk"><i></i>Laki-Laki</label><label><input type="radio" name="jk"><i></i>Perempuan</label></div>
+      <label class="lbl" style="margin-top:22px">Lokasi domisili</label>
+      <div class="field sel"><svg><use href="#i-pin"/></svg><select><option selected>Bekasi,jawa barat</option><option>Jakarta, DKI Jakarta</option><option>Bogor, jawa barat</option><option>Depok, jawa barat</option><option>Tangerang, Banten</option></select><svg class="r"><use href="#i-down"/></svg></div>
+      <div class="grow"></div>
+      <button class="btn next" data-go="signup3">Lanjutkan<span><svg><use href="#i-arrow"/></svg></span></button>
+      <p class="alt">Sudah punya akun? <a data-go="signin">Masuk</a></p>
+    </div>
+  </section>
+
+  <!-- ============ SIGN UP 3 ============ -->
+  <section class="screen grad" id="signup3">
+    <div class="body pad">
+      <a class="backlink" data-back><svg><use href="#i-back"/></svg></a>
+      <h1>Catatan kesehatan</h1>
+      <p class="sub">Informasi ini membantu kami memberikan rekomendasi yang lebih akurat</p>
+      <label class="lbl" style="margin-top:16px">Apakah anda memiliki kondisi kesehatan tertentu?</label>
+      <div class="radios col"><label><input type="radio" name="kond"><i></i>Ya,saya memiliki kondisi kesehatan</label><label><input type="radio" name="kond"><i></i>Tidak</label></div>
+      <label class="lbl" style="margin-top:20px">Catatan Penyakit(opsional)</label>
+      <div class="field"><input class="lg" placeholder="Contoh: Asma, Alergi, PPOK, Jantung,dll"></div>
+      <div class="privacy"><svg><use href="#i-shield"/></svg><p>data Kesehatan anda bersifat rahasia dan hanya digunakan untuk rekomendasi kesehatan yang lebih personal</p></div>
+      <div class="grow"></div>
+      <button class="btn next" data-go="home" data-reset>Buat Akun<span><svg><use href="#i-arrow"/></svg></span></button>
+      <p class="alt">Sudah punya akun? <a data-go="signin">Masuk</a></p>
+    </div>
+  </section>
+
+  <!-- ============ SIGN IN ============ -->
+  <section class="screen grad" id="signin">
+    <div class="body pad">
+      <h1 class="dark">Selamat datang !</h1>
+      <p class="sub">Masuk untuk melanjutkan</p>
+      <label class="lbl">Email</label>
+      <div class="field"><svg><use href="#i-user"/></svg><input type="email" placeholder="Masukkan Email" autocomplete="email"></div>
+      <label class="lbl">Kata Sandi</label>
+      <div class="field"><svg><use href="#i-lock"/></svg><input type="password" placeholder="Buat kata sandi"></div>
+      <a class="forgot">Lupa Kata sandi?</a>
+      <button class="btn rect" data-go="home" data-reset>Masuk</button>
+      <div class="or"><span>Atau</span></div>
+      <button class="social" data-go="home" data-reset><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.500c3.500 0 6.600 1.200 9.100 3.600l6.800-6.800C35.800 2.400 30.300 0 24 0 14.600 0 6.500 5.400 2.600 13.200l7.900 6.200C12.400 13.600 17.700 9.500 24 9.500z"/><path fill="#4285F4" d="M46.500 24.500c0-1.600-.1-3.100-.4-4.500H24v9h12.700c-.6 3-2.300 5.500-4.800 7.200l7.700 6c4.500-4.200 6.900-10.300 6.900-17.700z"/><path fill="#FBBC05" d="M10.500 28.600c-.5-1.500-.8-3-.8-4.600s.3-3.100.8-4.600l-7.900-6.200C.9 16.500 0 20.100 0 24s.9 7.500 2.600 10.800l7.900-6.200z"/><path fill="#34A853" d="M24 48c6.500 0 11.900-2.100 15.900-5.800l-7.700-6c-2.200 1.400-4.900 2.300-8.200 2.300-6.300 0-11.600-4.200-13.500-9.900l-7.900 6.200C6.500 42.600 14.600 48 24 48z"/></svg>Masuk dengan Google</button>
+      <button class="social" data-go="home" data-reset><svg viewBox="0 0 24 24"><path fill="#111" d="M16.700 12.700c0-2.400 2-3.600 2.100-3.700-1.100-1.700-2.900-1.900-3.500-1.900-1.500-.2-2.900.9-3.700.9-.8 0-1.900-.9-3.200-.8-1.600 0-3.100 1-4 2.400-1.700 3-.4 7.300 1.200 9.700.8 1.200 1.800 2.500 3 2.400 1.200 0 1.700-.8 3.100-.8 1.500 0 1.900.8 3.200.8 1.300 0 2.200-1.200 3-2.400.9-1.400 1.300-2.700 1.300-2.800 0 0-2.500-1-2.500-3.800ZM14.300 5.600c.7-.8 1.100-1.900 1-3-1 0-2.100.6-2.800 1.500-.6.700-1.200 1.900-1 3 1.100 0 2.100-.6 2.800-1.500Z"/></svg>Masuk dengan Apple</button>
+      <button class="social" data-go="home" data-reset><svg style="color:#111"><use href="#i-phone"/></svg>Masuk dengan Nomor HP</button>
+      <div class="grow"></div>
+      <p class="alt big">Belum punya akun? <a data-go="signup1">Daftar sekarang</a></p>
+    </div>
+  </section>
+
+  <!-- ============ HOME ============ -->
+  <section class="screen flat tabbed" id="home" data-tab="home">
+    <div class="body">
+      <div class="loc-head">
+        <svg class="pin"><use href="#i-pin"/></svg>
+        <div><div class="loc-name">Bekasi Selatan <svg><use href="#i-down"/></svg></div><div class="loc-upd"><i></i>Terakhir diperbarui 10:42 WIB</div></div>
+        <a class="bell" data-go="notif"><svg><use href="#i-bell"/></svg></a>
+      </div>
+
+      <a class="hero" data-go="kualitas">
+        <img src="assets/hero.png" alt="">
+        <div class="hero-t">Kualitas Udara Sekarang</div>
+        <div class="hero-n"><b>64</b><span>Sedang</span></div>
+        <div class="hero-pm">PM2.5 &nbsp;&nbsp;&nbsp; 18 µg/m³ <svg><use href="#i-info"/></svg></div>
+        <div class="scale"><i style="left:28.400%"></i></div>
+        <div class="scale-l"><span>Baik<em>0–50</em></span><span>Sedang<em>51–100</em></span><span>Tidak Sehat<em>101–200</em></span><span>Sangat<br>Tidak Sehat<em>201-300</em></span><span>Berbahaya<em>300+</em></span></div>
+      </a>
+
+      <a class="card reco" data-go="rekomendasi">
+        <span class="ic"><svg><use href="#i-mask"/></svg></span>
+        <div><b>Rekomendasi untuk Anda</b><p>Pakailah masker saat beraktivitas diluar ruangan.</p></div>
+        <span class="go"><svg><use href="#i-chev"/></svg></span>
+      </a>
+
+      <h3>Cuaca Saat Ini</h3>
+      <div class="grid2">
+        <div class="card wx"><svg><use href="#i-temp"/></svg><div><b class="lg">29°C</b><small>SUHU</small></div></div>
+        <div class="card wx"><svg><use href="#i-drop"/></svg><div><b>68%</b><small>KELEMBAPAN</small></div></div>
+        <div class="card wx"><svg><use href="#i-wind"/></svg><div><b>1010 hPa</b><small>TEKANAN UDARA</small></div></div>
+        <div class="card wx"><svg><use href="#i-sun"/></svg><div><b>Tinggi (7)</b><small>INDEKS UV</small></div></div>
+      </div>
+
+      <h3>Prakiraan Besok</h3>
+      <a class="fore" data-go="prakiraan">
+        <div><b>Sedang</b><b>ISPU 64</b><p>Udara masih cukup aman untuk aktivitas luar ruangan.</p></div>
+        <div class="suncloud"><i class="s"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ KUALITAS UDARA ============ -->
+  <section class="screen sky" id="kualitas">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Kualitas Udara</h2></header>
+    <div class="body px20">
+      <div class="loc-head sm"><svg class="pin"><use href="#i-pin"/></svg><div><div class="loc-name">Bekasi Selatan</div><div class="loc-upd"><i></i>Hari ini, 10:42 WIB</div></div></div>
+      <div class="gauge">
+        <svg viewBox="0 0 250 200">
+          <defs><linearGradient id="gg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#3b7fd6"/><stop offset=".35" stop-color="#3a8fc4"/><stop offset=".62" stop-color="#3fb68b"/><stop offset=".85" stop-color="#b9d65a"/><stop offset="1" stop-color="#f0e04a"/></linearGradient></defs>
+          <path d="M22 188 A110 110 0 1 1 228 188" fill="none" stroke="#edebe6" stroke-width="15" stroke-linecap="round"/>
+          <path id="gArc" d="M22 188 A110 110 0 1 1 228 188" fill="none" stroke="url(#gg)" stroke-width="15" stroke-linecap="round" pathLength="100" stroke-dasharray="78 100"/>
+        </svg>
+        <div class="gv"><b>64</b><span>Sedang</span><small>ISPU</small></div>
+      </div>
+      <div class="dom"><div><b>PM2.5</b><b>18 µg/m³</b></div><small>Parameter dominan</small></div>
+      <div class="card param">
+        <h4>Parameter Udara</h4>
+        <ul id="paramList">
+          <li data-p="PM2.5"><i style="background:#3b6fe0"></i><b>PM2.5</b><hr><strong>18</strong><em>µg/m³</em><span>›</span></li>
+          <li data-p="PM10"><i style="background:#8a6fe0"></i><b>PM10</b><hr><strong>32</strong><em>µg/m³</em><span>›</span></li>
+          <li data-p="CO"><i style="background:#2bb5a0"></i><b>CO</b><hr><strong>0.8</strong><em>ppm</em><span>›</span></li>
+          <li data-p="NO₂"><i style="background:#f2c81d"></i><b>NO₂</b><hr><strong>21</strong><em>µg/m³</em><span>›</span></li>
+          <li data-p="SO₂"><i style="background:#f28a1d"></i><b>SO₂</b><hr><strong>12</strong><em>µg/m³</em><span>›</span></li>
+          <li data-p="O₃"><i style="background:#e5403a"></i><b>O₃</b><hr><strong>48</strong><em>µg/m³</em><span>›</span></li>
+        </ul>
+      </div>
+      <div class="fore mean">
+        <div><h4>Apa artinya?</h4><p>Kualitas udara masih dapat diterima untuk sebagian besar kegiatan luar ruangan.</p></div>
+        <div class="suncloud"><i class="s"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REKOMENDASI ============ -->
+  <section class="screen flat" id="rekomendasi">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Rekomendasi</h2></header>
+    <div class="body px20">
+      <div class="forwho">Disesuaikan untuk <span class="chip" id="whoChip">Umum</span></div>
+      <div class="box green"><h4><i class="sq"><svg><use href="#i-check"/></svg></i>Aman dilakukan</h4><ul><li>Jalan santai</li><li>Bersepeda ringan</li><li>Aktivitas luar ruangan</li></ul></div>
+      <div class="box amber"><h4><svg class="w"><use href="#i-warn"/></svg>Perhatikan</h4><ul><li>Aktivitas berat terlalu lama</li><li>Olahraga intensitas tinggi</li></ul></div>
+      <div class="card times"><h4>Waktu terbaik beraktivitas</h4>
+        <div><b>07.00 – 09.00</b><span class="g">Paling Baik</span></div>
+        <div><b>12.00 – 15.00</b><span class="o">Kurangi Aktivitas</span></div>
+        <div><b>17.00 – 19.00</b><span class="b">Cukup Baik</span></div>
+      </div>
+      <div class="box tips"><h4>Tips</h4><p>Gunakan masker saat berada di area dengan lalu lintas padat.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ PRAKIRAAN ============ -->
+  <section class="screen flat" id="prakiraan">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Prakiraan Besok</h2></header>
+    <div class="body px15">
+      <div class="card chart">
+        <b class="t">Prakiraan ISPU</b><small>Bekasi Selatan</small>
+        <div class="row"><b class="n">64</b><span class="tagpill">Sedang</span></div>
+        <svg viewBox="0 0 352 190">
+          <defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dc7a" stop-opacity=".75"/><stop offset="1" stop-color="#f6dc7a" stop-opacity="0"/></linearGradient></defs>
+          <path d="M24 100 L120 44 L216 62 L312 106 L312 150 L24 150Z" fill="url(#cf)"/>
+          <path d="M120 44V158M216 62V158" stroke="#e3e7ee" stroke-width="1"/>
+          <path d="M24 100 L120 44" stroke="#4bb04f" stroke-width="2.200" fill="none"/>
+          <path d="M120 44 L216 62" stroke="#e9c31c" stroke-width="2.200" fill="none"/>
+          <path d="M216 62 L312 106" stroke="#4bb04f" stroke-width="2.200" fill="none"/>
+          <g fill="#fff" stroke-width="2.400"><circle cx="24" cy="100" r="7" stroke="#4bb04f"/><circle cx="120" cy="44" r="7.500" stroke="#e9c31c"/><circle cx="216" cy="62" r="7.500" stroke="#e9c31c"/><circle cx="312" cy="106" r="7" stroke="#4bb04f"/></g>
+          <g font-family="Poppins" font-weight="600" font-size="12" fill="#152943" text-anchor="middle"><text x="24" y="80">58</text><text x="120" y="24">74</text><text x="216" y="42">68</text><text x="312" y="86">55</text></g>
+          <g font-family="Poppins" font-size="10" fill="#8598ac" text-anchor="middle"><text x="26" y="186">06.00</text><text x="120" y="186">12.00</text><text x="216" y="186">18.00</text><text x="308" y="182">24.00</text></g>
+        </svg>
+      </div>
+      <div class="card hourly"><h4>Per jam</h4>
+        <div class="hrs">
+          <div><small>06.00</small><b>58</b><i class="g"></i></div><div><small>09.00</small><b>62</b><i class="g"></i></div><div><small>12.00</small><b>74</b><i class="y"></i></div><div><small>15.00</small><b>76</b><i class="y"></i></div><div><small>18.00</small><b>68</b><i class="y"></i></div><div><small>21.00</small><b>60</b><i class="g"></i></div>
+        </div>
+      </div>
+      <div class="card recs"><h4>Rekomendasi</h4>
+        <div><b>07.00 – 09.00</b><span>Aktivitas luar cukup aman</span></div>
+        <div><b>12.00 – 15.00</b><span>Hindari aktivitas berat</span></div>
+        <div><b>17.00 – 19.00</b><span>Aktivitas luar cukup aman</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTIFIKASI ============ -->
+  <section class="screen flat" id="notif">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Notifikasi</h2></header>
+    <div class="body px15">
+      <div class="card ntf"><svg style="color:#dc2a20"><use href="#i-warn"/></svg><div><b style="color:#dc2a20">Kualitas udara memburuk</b><p>ISPU Bekasi Timur meningkat dari 72 ke 108.</p><small><svg><use href="#i-clock"/></svg>12 menit lalu</small></div></div>
+      <div class="card ntf"><svg style="color:#e2930d"><use href="#i-warn"/></svg><div><b style="color:#e2930d">Waktu terbaik beraktivitas</b><p>Udara diperkirakan lebih baik pukul 17.00 – 19.00</p><small><svg><use href="#i-clock"/></svg>1 jam lalu</small></div></div>
+      <div class="card ntf"><svg style="color:#3b6fe0"><use href="#i-thumb"/></svg><div><b style="color:#3b6fe0">Rekomendasi untuk Anak</b><p>Besok pukul 12.00 – 15.00 sebaiknya kurangi aktivitas luar.</p><small><svg><use href="#i-clock"/></svg>3 jam lalu</small></div></div>
+      <div class="card ntf"><i class="sq big"><svg><use href="#i-check"/></svg></i><div><b style="color:#2f8f46">Laporan Anda diterima</b><p style="margin-top:14px">Laporan pembakaran sampah telah diverifikasi.</p><small><svg><use href="#i-clock"/></svg>5 jam lalu</small></div></div>
+    </div>
+  </section>
+
+  <!-- ============ MAPS ============ -->
+  <section class="screen flat tabbed" id="map" data-tab="map">
+    <div class="body">
+      <a class="searchbar" data-go="ruteset"><svg><use href="#i-search"/></svg><span>Cari lokasi atau tujuan...</span><i><svg><use href="#i-filter"/></svg></i></a>
+      <div class="mapbox">
+        <div class="roads"></div>
+        <div class="legend"><b>ISPU</b><span><i style="background:#43c26a"></i>Baik</span><span><i style="background:#2f7fd6"></i>Sedang</span><span><i style="background:#f2c230"></i>Tidak Sehat<br>Sensitif</span><span><i style="background:#e5533a"></i>Tidak Sehat</span><span><i style="background:#8a1f2c"></i>Berbahaya</span></div>
+        <div class="mk" style="left:78px;top:68px;color:#8793a6"><svg><use href="#i-pin"/></svg><em>Bekasi Utara</em></div>
+        <div class="mk" style="left:112px;top:132px;color:#2f7fd6"><svg><use href="#i-pin"/></svg><em style="left:-58px;top:46px">Bekasi Barat</em></div>
+        <div class="mk" style="left:196px;top:168px;color:#e5533a"><svg><use href="#i-pin"/></svg><em style="left:26px">Bekasi Timur</em></div>
+        <div class="mk" style="left:270px;top:188px;color:#e5533a"><svg><use href="#i-pin"/></svg><em style="left:0">Bekasi Jaya</em></div>
+        <div class="mk" style="left:172px;top:236px;color:#f2c230"><svg><use href="#i-pin"/></svg><em style="left:20px;top:80px">Mustika Jelotri</em></div>
+        <div class="mk" style="left:99px;top:296px;color:#8793a6"><svg><use href="#i-pin"/></svg></div>
+        <div class="me"><i></i><em>Bekasi Selatan</em></div>
+        <a class="fab" data-go="ruteset"><svg><use href="#i-nav"/></svg></a>
+      </div>
+      <div class="sec-h"><h3>Monitoring Udara</h3><a>Lihat Semua</a></div>
+      <a class="card spku" data-go="kualitas"><span class="ic b"><svg><use href="#i-antenna"/></svg></span><div><b>SPKU Bekasi Selatan</b><p><strong style="color:#084cb6">ISPU 64</strong> Sedang</p><small>10:42 WIB</small></div><span class="go"><svg><use href="#i-chev"/></svg></span></a>
+      <a class="card spku" data-go="kualitas"><span class="ic g"><svg><use href="#i-antenna"/></svg></span><div><b>SPKU Bekasi Barat</b><p><strong style="color:#43c26a">ISPU 58</strong> Sedang</p><small>10:40 WIB</small></div><span class="go"><svg><use href="#i-chev"/></svg></span></a>
+      <a class="card spku" data-go="kualitas"><span class="ic y"><svg><use href="#i-antenna"/></svg></span><div><b>SPKU Bekasi Timur</b><p><strong style="color:#d48a0c">ISPU 71</strong> Tidak Sehat</p><small>10:39 WIB</small></div><span class="go"><svg><use href="#i-chev"/></svg></span></a>
+    </div>
+  </section>
+
+  <!-- ============ PENGATURAN RUTE AMAN ============ -->
+  <section class="screen lav" id="ruteset">
+    <header class="nav box"><a data-back><svg><use href="#i-chev"/></svg></a><h2>Rute Aman</h2></header>
+    <div class="body px18">
+      <div class="card od">
+        <div><svg><use href="#i-pin-o"/></svg><span><small>Lokasi Awal</small><b>Lokasi saya</b></span></div>
+        <div><svg><use href="#i-pin-o"/></svg><span><small>Tujuan</small><b>Summarecon Mall Bekasi</b></span><i><svg><use href="#i-swap"/></svg></i></div>
+      </div>
+      <h5>Mode Transportasi</h5>
+      <div class="modes" id="modes">
+        <button><img src="assets/t_motor.png" alt="">Motor</button>
+        <button><img src="assets/t_mobil.png" alt="">Mobil</button>
+        <button><img src="assets/t_sepeda.png" alt="">Sepeda</button>
+        <button><img src="assets/t_jalan.png" alt="">Jalan kaki</button>
+      </div>
+      <h5 style="margin-top:26px">Preferensi Rute</h5>
+      <p class="mut">Pilih preferensi rute yang ingin Anda utamakan.</p>
+      <div class="prefs" id="prefs">
+        <label data-k="aman"><i></i><span><b>Rute dengan polusi terendah</b><small>Memilih rute dengan kualitas udara terbaik</small></span></label>
+        <label data-k="cepat"><i></i><span><b>Rute tercepat</b><small>Memilih rute dengan waktu tempuh tercepat</small></span></label>
+        <label data-k="pendek"><i></i><span><b>Rute terpendek</b><small>Memilih rute dengan jarak paling pendek</small></span></label>
+      </div>
+      <button class="btn rect big" id="cariRute">Cari Rute Aman</button>
+    </div>
+  </section>
+
+  <!-- ============ PILIH RUTE ============ -->
+  <section class="screen lav" id="rute">
+    <header class="nav box"><a data-back><svg><use href="#i-chev"/></svg></a><div><h2>Pilih Rute</h2><small>Data kualitas udara diperbarui 10:45 WIB</small></div></header>
+    <div class="body" id="ruteList"></div>
+  </section>
+
+  <!-- ============ NAVIGASI ============ -->
+  <section class="screen full" id="navi">
+    <div class="navmap">
+      <div class="roads"></div>
+      <svg class="route" viewBox="0 0 412 620" width="412" height="620"><path id="naviPath" d="M150 500 L150 330 Q150 300 180 296 L300 280 Q330 276 332 250 L335 196" fill="none" stroke="#1fb36b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M212 292 L286 282" stroke="#e5533a" stroke-width="8" stroke-linecap="round"/></svg>
+      <div class="pt" style="left:335px;top:196px"><svg><use href="#i-pin"/></svg></div>
+      <div class="car"><svg><use href="#i-nav"/></svg></div>
+      <div class="bubble"><b>Kualitas udara buruk</b><span>di 270m ke depan ISPU 102(tidak sehat)</span></div>
+      <div class="speed"><b>40</b><small>km/jam</small></div>
+    </div>
+    <div class="turn"><span><svg><use href="#i-turn"/></svg></span><div><b>250 m</b><p>Belok kiri ke Jl. A. Yani</p></div><i><svg><use href="#i-bell"/></svg></i></div>
+    <div class="then">↱ &nbsp;Lalu belok kanan</div>
+    <div class="sheet">
+      <div class="aq"><div><b class="h">Kualitas Udara Rute Anda</b><small>ISPU Rata-rata</small><p><b id="naviIspu">42</b> <span id="naviLbl">Baik</span></p></div>
+        </div>
+      <div class="scale thin"><i id="naviDot" style="left:17%"></i></div>
+      <div class="ticks"><span>0</span><span>50</span><span>101</span><span>201</span><span>300+</span></div>
+      <div class="eta"><div><b id="naviTime">24 mnt</b><small id="naviDist">12,6 km · 11:09 WIB</small></div><button data-go="map" data-reset-to="map">Akhiri</button></div>
+    </div>
+  </section>
+
+  <!-- ============ LENS ============ -->
+  <section class="screen flat tabbed" id="lens" data-tab="lens">
+    <header class="nav"><h2 style="margin-left:0">Lens</h2></header>
+    <div class="body px20 nopadb">
+      <div class="finder">
+        <div class="scene"><i class="smoke s1"></i><i class="smoke s2"></i><i class="smoke s3"></i><i class="pile"></i><i class="flame"></i></div>
+        <i class="cn tl"></i><i class="cn tr"></i><i class="cn bl"></i><i class="cn br"></i>
+        <div class="hintbox">Arahkan kamera ke kondisi lingkungan yang ingin dilaporkan</div>
+        <div class="camctl"><button><svg><use href="#i-img"/></svg></button><button class="shutter" data-go="hasil"></button><button><svg><use href="#i-flip"/></svg></button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HASIL DETEKSI AI ============ -->
+  <section class="screen flat" id="hasil">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Hasil Deteksi AI</h2></header>
+    <div class="body px20">
+      <div class="grid2 det">
+        <div class="thumb"><div class="scene"><i class="smoke s1"></i><i class="smoke s2"></i><i class="pile"></i><i class="flame"></i></div><i class="cn tl"></i><i class="cn tr"></i><i class="cn bl"></i><i class="cn br"></i></div>
+        <div class="alert"><svg><use href="#i-warn"/></svg><b>Indikasi pembakaran sampah terdeteksi</b></div>
+      </div>
+      <div class="card lap">
+        <div><span class="ic"><svg><use href="#i-doc"/></svg></span><p><small>Kategori</small><b>Pembakaran Sampah</b></p></div>
+        <div><span class="ic"><svg><use href="#i-pin"/></svg></span><p><small>Lokasi</small><b>Bekasi Timur</b></p></div>
+        <div><span class="ic"><svg><use href="#i-clock"/></svg></span><p><small>Waktu</small><b>12 Mei 2025, 10:43 WIB</b></p></div>
+      </div>
+      <div class="box tips what"><h4><i>i</i>Apa yang terjadi?</h4><p>AI mendeteksi adanya aktivitas pembakaran sampah yang dapat mempengaruhi kualitas udara di sekitar.</p></div>
+      <button class="btn pill mid" data-go="berhasil">Kirim Laporan</button>
+      <a class="textbtn" data-back>Ambil Ulang</a>
+    </div>
+  </section>
+
+  <!-- ============ BERHASIL ============ -->
+  <section class="screen flat" id="berhasil">
+    <div class="body center">
+      <div class="okart"><i class="glow"></i><i class="leaf l1"></i><i class="leaf l2"></i><i class="leaf l3"></i><div class="okc"><svg><use href="#i-check"/></svg></div></div>
+      <h1 class="thanks">Terima kasih!</h1>
+      <p class="p1">Laporan Anda telah berhasil dikirim.</p>
+      <p class="p2">Laporan Anda membantu warga untuk mendapatkan udara yang lebih bersih.</p>
+      <button class="btn pill mid" data-go="map" data-reset-to="map">Lihat di Peta</button>
+      <a class="textbtn" data-go="home" data-reset>Kembali ke Home</a>
+    </div>
+  </section>
+
+  <!-- ============ PROFILE ============ -->
+  <section class="screen grad tabbed" id="profile" data-tab="profile">
+    <div class="body px18">
+      <div class="prof-h"><h2>Profile</h2><a data-go="setting"><svg><use href="#i-gear"/></svg></a></div>
+      <div class="card ucard">
+        <span class="ava big">🧑</span>
+        <div><b id="pName">Daffa</b><p id="pMail">Daffa@gmail.com</p><small><svg><use href="#i-pin"/></svg><span id="pLoc">Bekasi Selatan</span></small></div>
+        <a class="ed" data-go="edit"><svg><use href="#i-chev"/></svg></a>
+      </div>
+      <div class="card vul">
+        <div class="vh"><div><b>Mode Kelompok Rentan</b><p>Ambang notifikasi akan diturunkan &amp; rekomendasi aktivitas disesuaikan.</p></div><label class="tog"><input type="checkbox" id="vulTog"><i></i></label></div>
+        <div class="fh"><b>Profil Anggota Keluarga</b><a data-go="tambah"><svg><use href="#i-plus"/></svg>Tambah</a></div>
+        <div id="famList"></div>
+      </div>
+      <div class="card menu">
+        <a data-go="notif"><span class="ic"><svg><use href="#i-bell"/></svg></span>Notifikasi Kualitas Udara<svg class="c"><use href="#i-chev"/></svg></a>
+        <a data-toast="Riwayat Laporan Lens belum tersedia di prototipe"><span class="ic"><svg><use href="#i-cam"/></svg></span>Riwayat Laporan Lens<svg class="c"><use href="#i-chev"/></svg></a>
+        <a data-go="map"><span class="ic"><svg><use href="#i-pin"/></svg></span>Lokasi Tersimpan<svg class="c"><use href="#i-chev"/></svg></a>
+        <a data-toast="Sumber data: SPKU KLHK &amp; BMKG"><span class="ic"><svg><use href="#i-db"/></svg></span>Sumber Data<svg class="c"><use href="#i-chev"/></svg></a>
+        <a data-toast="Regulasi &amp; FAQ belum tersedia di prototipe"><span class="ic"><svg><use href="#i-book"/></svg></span>Regulasi &amp; FAQ<svg class="c"><use href="#i-chev"/></svg></a>
+        <a data-toast="Respira versi 1.0.0"><span class="ic"><svg><use href="#i-info"/></svg></span>Tentang Respira<svg class="c"><use href="#i-chev"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EDIT PROFILE ============ -->
+  <section class="screen grad" id="edit">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Edit Profile</h2></header>
+    <div class="body pad25">
+      <div class="ava-edit"><span class="ava xl">🧑</span><i><svg><use href="#i-cam"/></svg></i></div>
+      <label class="lbl2">Nama Lengkap</label><div class="in2"><input id="eName" value="Daffa"><i><svg><use href="#i-edit"/></svg></i></div>
+      <label class="lbl2">Username</label><div class="in2"><input id="eUser" value="Daffa_ganteng"><i><svg><use href="#i-edit"/></svg></i></div>
+      <label class="lbl2">Password</label><div class="in2"><input type="password" value="password123456"></div>
+      <label class="lbl2">Email</label><div class="in2"><input id="eMail" value="Daffa@gmail.com"><i><svg><use href="#i-edit"/></svg></i></div>
+      <label class="lbl2">Lokasi</label><div class="in2"><input id="eLoc" value="Bekasi Selatan"><i><svg><use href="#i-edit"/></svg></i></div>
+      <div class="grow" style="min-height:24px"></div>
+      <button class="btn pill mid soft" id="saveProfile">Simpan Perubahan</button>
+    </div>
+  </section>
+
+  <!-- ============ SETTING ============ -->
+  <section class="screen grad" id="setting">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Pengaturan</h2></header>
+    <div class="body pad25">
+      <label class="lbl2">Akun</label>
+      <div class="card set"><a data-go="edit">Ubah Nama<span id="sName">Daffa</span></a><a data-go="edit">Ubah Email<span id="sMail">Daffa@gmail.com</span></a><a data-go="edit">Ubah Password<span>••••••••</span></a></div>
+      <label class="lbl2">Preferensi</label>
+      <div class="card set"><a>Bahasa<span>Bahasa Indonesia</span></a><a>Satuan Pengukuran<span>µg/m³(Metrik)</span></a><a>Tema<span>Terang</span></a><a>Getaran<label class="tog"><input type="checkbox" checked><i></i></label></a></div>
+      <label class="lbl2">Notifikasi</label>
+      <div class="card set"><a>Notifikasi kualitas udara<span class="act">Aktif</span></a><a>Notifikasi rekomendasi<span class="act">Aktif</span></a><a>Waktu Tenang<span>22.00 - 06.00</span></a></div>
+      <label class="lbl2">Lainnya</label>
+      <div class="card set"><a data-toast="Respira versi 1.0.0">Tentang Respira<span>›</span></a></div>
+      <button class="btn pill mid soft red" data-go="signin" data-reset-to="signin">Keluar</button>
+      <p class="ver">Versi 1.0.0</p>
+    </div>
+  </section>
+
+  <!-- ============ TAMBAH ANGGOTA ============ -->
+  <section class="screen grad" id="tambah">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Tambah Anggota</h2></header>
+    <div class="body px20">
+      <label class="lbl2" style="margin-top:14px">Pilih Kategori anggota keluarga</label>
+      <div class="box tips note"><i>i</i><p>Kategori menentukan ambang batas notifikasi ISPU yang sesuai tingkat kerentanan anggota keluarga Anda.</p></div>
+      <div class="cats" id="cats">
+        <label data-a="👦" data-s="1"><span class="ava">👦</span><span><b>Anak-anak</b><small>Usia di bawah 12 tahun</small></span><em class="y">Sensitif</em></label>
+        <label data-a="🧑" data-s="0"><span class="ava" style="background:#d5efdd">🧑</span><span><b>Dewasa/umum</b><small>Tanpa kondisi khusus</small></span><em class="gr">Sehat</em></label>
+        <label data-a="🧓" data-s="1"><span class="ava">🧓</span><span><b>Lansia</b><small>Usia 60 tahun ke atas</small></span><em class="y">Sensitif</em></label>
+        <label data-a="🫁" data-s="1"><span class="ava" style="background:#d6e9fb">🫁</span><span><b>Riwayat ISPA/Asma</b><small>Gangguan pernapasan kronis</small></span><em class="r">Berbahaya</em></label>
+        <label data-a="🤰" data-s="1"><span class="ava" style="background:#fbd5e0">🤰</span><span><b>Ibu Hamil</b><small>Sedang masa kehamilan</small></span><em class="y">Sensitif</em></label>
+      </div>
+      <button class="btn pill mid soft" id="catNext">Lanjutkan</button>
+    </div>
+  </section>
+
+  <!-- ============ DETAIL TAMBAH ANGGOTA ============ -->
+  <section class="screen grad" id="tambah2">
+    <header class="nav"><a data-back><svg><use href="#i-back"/></svg></a><h2>Tambah Anggota</h2></header>
+    <div class="body pad25">
+      <div class="ava-edit"><span class="ava xl" id="mAva">👦</span></div>
+      <label class="lbl2">Nama</label><div class="in2"><input id="mName" placeholder="Contoh : Budi"></div>
+      <label class="lbl2">Usia</label><div class="in2"><input id="mAge" placeholder="Contoh : 7"></div>
+      <label class="lbl2">Catatan tambahan <span class="opt">Opsional</span></label><div class="in2 tall"><input id="mNote" placeholder="Contoh : pakai inhaler saat kambuh, kontrol rutin tiap bulan"></div>
+      <div class="box tips early" id="mInfo"><span class="ic"><svg><use href="#i-bell"/></svg></span><p>Karena kategori tidak sehat , <b id="mWho">anggota ini</b> akan mendapat peringatan lebih awal — saat ISPU di atas 50 (Sedang) , bukan 100 seperti umumnya.</p></div>
+      <div class="grow" style="min-height:20px"></div>
+      <button class="btn pill mid soft" id="saveMember">Simpan Anggota</button>
+    </div>
+  </section>
+
+  <!-- ============ TAB BAR ============ -->
+  <nav class="tabbar" id="tabbar">
+    <a data-tabgo="home"><svg><use href="#i-home"/></svg>Home</a>
+    <a data-tabgo="map"><svg><use href="#i-pin-o"/></svg>Map</a>
+    <a data-tabgo="lens"><svg><use href="#i-cam"/></svg>Lens</a>
+    <a data-tabgo="profile"><svg><use href="#i-user"/></svg>Profile</a>
+  </nav>
+  <div class="toast" id="toast"></div>
+</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
