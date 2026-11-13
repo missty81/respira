@@ -54,7 +54,7 @@
   /* ---------- rute ---------- */
   var pref='aman';
   var R={
-    aman:{t:'Rute Aman (Polusi Terendah)',c:'#1fb36b',ispu:42,l:'Baik',lc:'#1fb36b',km:'12,6 km',mn:'24 mnt',badge:'✓ Terbaik',bb:'#dff5e8',pos:17,d:'M22 60 L60 130 L98 96 L150 70 L205 58 L232 110 L290 128 L330 118 L352 40'},
+    aman:{t:'Rute Aman (Polusi Terendah)',c:'#1fb36b',ispu:42,l:'Baik',lc:'#1fb36b',km:'12,6 km',mn:'24 mnt',badge:'✓ Terbaik',bb:'#e3f6ea',pos:17,d:'M22 60 L60 130 L98 96 L150 70 L205 58 L232 110 L290 128 L330 118 L352 40'},
     cepat:{t:'Rute Tercepat',c:'#2f6bf0',ispu:58,l:'sedang',lc:'#e09a08',km:'10,8 km',mn:'18 mnt',badge:'⚡ Tercepat',bb:'#2f6bf0',pos:27,d:'M22 60 L70 112 L120 84 L175 104 L240 112 L300 122 L352 60'},
     pendek:{t:'RuteTerpendek',c:'#f2791e',ispu:64,l:'sedang',lc:'#e09a08',km:'9,5 km',mn:'20 mnt',badge:'★ Terpendek',bb:'#fdebd8',pos:29,d:'M22 70 L55 112 L95 82 L140 112 L190 78 L225 56 L262 98 L300 86 L352 122'}
   };
@@ -66,18 +66,17 @@
     var order=[pref].concat(['aman','cepat','pendek'].filter(function(k){return k!==pref}));
     $('#ruteList').innerHTML=order.map(function(k,i){var r=R[k], best=i===0;
       return '<a class="rc'+(best?' best':'')+'" data-route="'+k+'" style="--c:'+(best?r.c:'transparent')+'"><div class="rc-h">'+r.t+'<svg><use href="#i-chev"/></svg></div>'+
-      '<div class="rc-map"><div class="roads"></div><svg viewBox="0 0 374 176" preserveAspectRatio="none"><path d="'+r.d+'" fill="none" stroke="'+r.c+'" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>'+
-      '<g fill="#fff" stroke="'+r.c+'" stroke-width="2.500"><circle cx="'+r.d.split(' ')[0].slice(1)+'" cy="'+r.d.split(' ')[1]+'" r="5"/><circle cx="352" cy="'+r.d.split(' ').pop()+'" r="5"/></g></svg></div>'+
+      '<div class="rc-map" style="background-image:url(assets/r_'+k+'.jpg)"></div>'+
       '<div class="rc-s"><div>ISPU Rata-rata<b style="color:'+r.lc+'">'+r.ispu+'</b><small style="color:'+r.lc+'">'+r.l+'</small></div><div>Jarak<b>'+r.km+'</b></div><div>Waktu<b>'+r.mn+'</b></div>'+
       (best?'<span class="badge" style="background:'+r.bb+';color:'+(k==='cepat'?'#fff':r.c)+'">'+r.badge+'</span>':'')+'</div></a>';}).join('');
   }
   $('#ruteList').addEventListener('click',function(e){var a=e.target.closest('[data-route]'); if(!a) return; var r=R[a.getAttribute('data-route')];
     $('#naviIspu').textContent=r.ispu; $('#naviLbl').textContent=r.l.charAt(0).toUpperCase()+r.l.slice(1); $('#naviIspu').parentNode.style.color=r.lc;
-    $('#naviDot').style.left=r.pos+'%'; $('#naviTime').textContent=r.mn; $('#naviDist').textContent=r.km+' · 11:09 WIB'; $('#naviPath').style.stroke=r.c; go('navi');});
+    $('#naviDot').style.left=r.pos+'%'; $('#naviTime').textContent=r.mn; $('#naviDist').textContent=r.km+' · 11:09 WIB'; go('navi');});
 
   /* ---------- profil & keluarga ---------- */
-  var fam=[{a:'👦',n:'Rizky (7 th)'},{a:'🧓',n:'Budi (65 th)'},{a:'👩',n:'Rina (20 th)',x:'Penyakit : ISPA'},{a:'👶',n:'Aisya (5 bln)'}];
-  function renderFam(){ $('#famList').innerHTML=fam.map(function(m,i){return '<div class="fam"><span class="ava">'+m.a+'</span><b>'+esc(m.n)+'</b>'+(m.x?'<small>'+esc(m.x)+'</small>':'')+'<button data-rm="'+i+'" aria-label="Hapus">×</button></div>'}).join(''); }
+  var fam=[{a:'a_anak',n:'Rizky (7 th)'},{a:'a_lansia',n:'Budi (65 th)'},{a:'a_rina',n:'Rina (20 th)',x:'Penyakit : ISPA'},{a:'a_hamil',n:'Aisya (5 bln)'}];
+  function renderFam(){ $('#famList').innerHTML=fam.map(function(m,i){return '<div class="fam"><span class="ava" style="background-image:url(assets/'+m.a+'.png)"></span><b>'+esc(m.n)+'</b>'+(m.x?'<small>'+esc(m.x)+'</small>':'')+'<button data-rm="'+i+'" aria-label="Hapus">×</button></div>'}).join(''); }
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   $('#famList').addEventListener('click',function(e){var b=e.target.closest('[data-rm]'); if(!b) return; fam.splice(+b.getAttribute('data-rm'),1); renderFam();});
   renderFam();
@@ -92,12 +91,12 @@
   var cat=null;
   $$('#cats label').forEach(function(l){l.addEventListener('click',function(){cat=l; $$('#cats label').forEach(function(x){x.classList.toggle('on',x===l)})})});
   $('#catNext').addEventListener('click',function(){ if(!cat) return toast('Pilih kategori terlebih dahulu');
-    $('#mAva').textContent=cat.getAttribute('data-a'); $('#mInfo').style.display=cat.getAttribute('data-s')==='1'?'flex':'none';
+    $('#mAva').style.backgroundImage='url(assets/'+cat.getAttribute('data-a')+'.png)'; $('#mAva').setAttribute('data-a',cat.getAttribute('data-a')); $('#mInfo').style.display=cat.getAttribute('data-s')==='1'?'flex':'none';
     $('#mName').value='';$('#mAge').value='';$('#mNote').value='';$('#mWho').textContent='anggota ini'; go('tambah2');});
   $('#mName').addEventListener('input',function(){$('#mWho').textContent=this.value.trim()||'anggota ini'});
   $('#saveMember').addEventListener('click',function(){ var n=$('#mName').value.trim(); if(!n) return toast('Isi nama anggota');
     var age=$('#mAge').value.trim(); if(age&&/^\d+$/.test(age)) age+=' th';
-    fam.push({a:$('#mAva').textContent,n:n+(age?' ('+age+')':''),x:$('#mNote').value.trim()}); renderFam();
+    fam.push({a:$('#mAva').getAttribute('data-a'),n:n+(age?' ('+age+')':''),x:$('#mNote').value.trim()}); renderFam();
     if(!vt.checked){vt.checked=true;vul();}
     toast(n+' ditambahkan'); reset('profile');});
 
