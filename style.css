@@ -15,6 +15,7 @@
   --sh:0 1px 2px rgba(11,31,58,.04),0 6px 18px rgba(11,31,58,.06);
   --sh2:0 2px 4px rgba(11,31,58,.05),0 14px 32px rgba(11,31,58,.10);
   --aero:linear-gradient(90deg,#3366FF,#14B8A6);
+  --hero:radial-gradient(65% 75% at 100% 0%,rgba(23,120,168,.95) 0%,rgba(23,120,168,0) 70%),radial-gradient(75% 85% at 0% 100%,#1c48a8 0%,rgba(28,72,168,0) 70%),linear-gradient(165deg,#143e8b 0%,#0f3170 50%,#081e43 100%);
 }
 html,body{height:100%;background:#cfdaea;font-family:Inter,system-ui,sans-serif;color:var(--ink);font-size:14px}
 body{display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -186,7 +187,7 @@ textarea.ta:focus{border-color:#9DB8FF}
 .hhead .loc .ic{color:var(--blue)}
 .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#3d7bff,#2a5fe6);color:#fff;display:grid;place-items:center;font-family:Manrope;font-weight:700;font-size:18px;flex:none}
 .bell{position:relative}.bell .dot{position:absolute;top:10px;right:12px;width:8px;height:8px;border-radius:50%;background:#F97316;border:2px solid #fff}
-.aqi{position:relative;border-radius:24px;padding:16px 16px 14px;color:#fff;overflow:hidden;background:radial-gradient(90% 90% at 80% 10%,#1e4cb0 0%,#12306f 45%,#0b1f3a 100%);box-shadow:0 16px 30px rgba(11,31,58,.25);cursor:pointer}
+.aqi{position:relative;border-radius:24px;padding:16px 16px 14px;color:#fff;overflow:hidden;background:var(--hero);box-shadow:0 16px 30px rgba(11,31,58,.25);cursor:pointer}
 .aqi .lab{font-size:11.5px;font-weight:600;letter-spacing:1.2px;color:#c3d1ea}
 .live{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#c3d1ea}
 .live:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--baik);animation:pulse 1.6s infinite}
@@ -200,7 +201,7 @@ textarea.ta:focus{border-color:#9DB8FF}
 .aqi .msg{font-size:14px;line-height:1.55;margin-top:10px;color:#e3eaf6}
 .aqi .msg b{color:#FFC94D}
 .aqi .masc{position:absolute;right:-6px;top:24px;width:66px}
-.pols{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.07);border-radius:14px;margin-top:12px}
+.pols{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:14px;margin-top:12px}
 .pols div{padding:9px 12px;border-left:1px solid rgba(255,255,255,.08)}
 .pols div:first-child{border:0}
 .pols small{display:block;font-size:11px;color:#a9badb}
@@ -316,7 +317,7 @@ textarea.ta:focus{border-color:#9DB8FF}
 .thumb{width:62px;height:62px;border-radius:12px;background:url(assets/smoke.jpg) center/cover;flex:none}
 
 /* profile */
-.phead{margin:-18px -20px 0;padding:24px 20px 70px;background:radial-gradient(100% 120% at 100% 0%,#1f4fb3,#0b1f3a 70%);color:#fff}
+.phead{margin:-18px -20px 0;padding:24px 20px 70px;background:var(--hero);color:#fff}
 .phead h1{font-size:22px;font-weight:700}
 .phead .avatar{width:64px;height:64px;font-size:26px}
 .over{margin-top:-56px}
@@ -334,7 +335,7 @@ textarea.ta:focus{border-color:#9DB8FF}
 .acc.open .ic{transform:rotate(180deg)}
 
 /* quest */
-.qhero{border-radius:24px;padding:18px;color:#fff;position:relative;overflow:hidden;background:radial-gradient(90% 120% at 90% 0%,#2054c4,#0b1f3a 70%)}
+.qhero{border-radius:24px;padding:18px;color:#fff;position:relative;overflow:hidden;background:var(--hero)}
 .qhero .big{font-family:Manrope;font-size:40px;font-weight:800;letter-spacing:-1px}
 .lvtag{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:16px;background:rgba(255,255,255,.12);font-weight:600;font-size:13px}
 .lvtag i{width:22px;height:22px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800}

@@ -20,7 +20,8 @@ function st(v) {
   if (v <= 199) return { t: 'Tidak Sehat', c: 'ts', col: '#F97316', m: 'mask', msg: 'Kurangi aktivitas luar dan pakai masker KF94.' };
   return { t: 'Berbahaya', c: 'bhy', col: '#E11D48', m: 'angry', msg: 'Tetap di dalam ruangan dan tutup jendela.' };
 }
-const pill = v => { const s = st(v); return `<span class="pill p-${s.c}">${s.t}</span>`; };
+const pc = s => s.c === 'sedang' ? 'blue' : s.c;
+const pill = v => { const s = st(v); return `<span class="pill p-${pc(s)}">${s.t}</span>`; };
 const LV = { 1: 'Air Rookie', 2: 'Air Explorer', 3: 'Air Guardian', 4: 'Clean Air Champion' };
 const LVMAX = { 1: 200, 2: 500, 3: 1000, 4: 2000 };
 const CATS = [
@@ -133,14 +134,13 @@ const field = (label, icon, val, attrs = '', type = 'text', extra = '') => `<div
 const pwField = (label, id, val = 'respira26', extra) => `<div class="lbl">${label}</div><div class="inp">${ic('lock')}<input id="${id}" type="password" value="${val}">${extra || `<button data-act="peek" data-t="${id}" aria-label="Lihat sandi">${ic('eye')}</button>`}</div>`;
 function gauge(v, size = 142, dark = true, sw = 9) {
   const r = size / 2 - sw, c = size / 2, C = 2 * Math.PI * r;
-  const seg = (a, b, col) => { const L = C * (b - a) / 360; return `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${L} ${C}" transform="rotate(${a - 90} ${c} ${c})"/>`; };
-  const ticks = Array.from({ length: 60 }, (_, i) => { const a = i * 6 * Math.PI / 180, r1 = r - sw - 3, r2 = r - sw - (i % 5 ? 6 : 9); return `<line x1="${c + r1 * Math.sin(a)}" y1="${c - r1 * Math.cos(a)}" x2="${c + r2 * Math.sin(a)}" y2="${c - r2 * Math.cos(a)}" stroke="${dark ? 'rgba(255,255,255,.25)' : '#cfd8e6'}" stroke-width="1"/>`; }).join('');
-  const frac = Math.min(v / 300, 1) * 360;
-  const id = 'gg' + size;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#14B8A6"/></linearGradient></defs>
-  <circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${dark ? 'rgba(255,255,255,.1)' : '#EEF2F7'}" stroke-width="${sw}"/>${ticks}
-  ${seg(-25, 25, 'url(#' + id + ')')}${seg(65, 115, 'url(#' + id + ')')}${seg(155, 205, '#14B8A6')}${seg(245, 295, 'url(#' + id + ')')}
-  <circle cx="${c + r * Math.sin(frac * Math.PI / 180)}" cy="${c - r * Math.cos(frac * Math.PI / 180)}" r="${sw / 2 + 2}" fill="#fff" stroke="${st(v).col}" stroke-width="3"/></svg>`;
+  const id = 'gg' + size + (dark ? 'd' : 'l');
+  const seg = (a, b) => { const L = C * (b - a) / 360; return `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${L} ${C}" transform="rotate(${a - 90} ${c} ${c})"/>`; };
+  const ticks = Array.from({ length: 60 }, (_, i) => { const a = i * 6 * Math.PI / 180, r1 = r - sw - 3, r2 = r - sw - (i % 5 ? 6 : 9); return `<line x1="${c + r1 * Math.sin(a)}" y1="${c - r1 * Math.cos(a)}" x2="${c + r2 * Math.sin(a)}" y2="${c - r2 * Math.cos(a)}" stroke="${dark ? 'rgba(255,255,255,.28)' : '#cfd8e6'}" stroke-width="1"/>`; }).join('');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${size}"><stop offset="0" stop-color="#3B8BFF"/><stop offset=".55" stop-color="#2C7BF0"/><stop offset="1" stop-color="#14B8A6"/></linearGradient>
+  <radialGradient id="${id}i"><stop offset="0" stop-color="${dark ? '#0a2552' : '#fff'}"/><stop offset="1" stop-color="${dark ? '#0f2f66' : '#F6F8FC'}"/></radialGradient></defs>
+  <circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${dark ? 'rgba(255,255,255,.12)' : '#EEF2F7'}" stroke-width="${sw}"/><circle cx="${c}" cy="${c}" r="${r - sw / 2 - 1}" fill="url(#${id}i)" opacity="${dark ? .55 : 1}"/>${ticks}
+  ${seg(-24, 24)}${seg(66, 114)}${seg(156, 204)}${seg(246, 294)}</svg>`;
 }
 function ring(p, size = 54, sw = 5, track = '#E8EEF6') {
   const r = size / 2 - sw / 2 - 1, C = 2 * Math.PI * r, c = size / 2;
@@ -339,7 +339,7 @@ R.aqi = () => {
   const params = [['PM2.5', 'Partikel halus', L.pm25, 'µg/m³', 75], ['PM10', 'Partikel kasar', L.pm10, 'µg/m³', 150], ['CO', 'Karbon monoksida', L.co, 'mg/m³', 10], ['O₃', 'Ozon', L.o3, 'µg/m³', 150], ['NO₂', 'Nitrogen dioksida', L.no2, 'µg/m³', 200], ['SO₂', 'Sulfur dioksida', L.so2, 'µg/m³', 150]];
   return {
     html: scr(`${hdr('Kualitas Udara', `${L.name} · ${L.spku}`, `<button class="cbtn" data-go="pickloc" aria-label="Pilih lokasi">${ic('pin')}</button>`)}
-    <div class="card" style="padding:20px 16px 16px"><div class="gauge" style="width:220px;height:220px;margin:0 auto">${gauge(L.ispu, 220, false, 12)}<div class="v"><span style="color:var(--mut);font-size:13px;font-weight:600">ISPU</span><b style="font-size:62px;color:var(--ink)">${L.ispu}</b><span class="pill p-${s.c}" style="margin:4px auto 0">${s.t}</span></div></div>
+    <div class="card" style="padding:20px 16px 16px"><div class="gauge" style="width:220px;height:220px;margin:0 auto">${gauge(L.ispu, 220, false, 12)}<div class="v"><span style="color:var(--mut);font-size:13px;font-weight:600">ISPU</span><b style="font-size:62px;color:var(--ink)">${L.ispu}</b><span class="pill p-${pc(s)}" style="margin:4px auto 0">${s.t}</span></div></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><div style="background:#F3F7FC;border-radius:14px;padding:12px"><div class="xs bb muted" style="letter-spacing:1px">POLUTAN UTAMA</div><b class="mf" style="font-size:17px">${L.main}</b></div><div style="background:#F3F7FC;border-radius:14px;padding:12px"><div class="xs bb muted" style="letter-spacing:1px">TREN 3 JAM</div><b class="mf" style="font-size:17px;color:#E4572E;display:flex;gap:4px;align-items:center">${ic('trendUp', 16)}${L.trend}</b></div></div></div>
     <div class="well" style="cursor:default"><img src="${M('laugh')}" style="width:62px" alt=""><div><div class="t">UNTUK KESEHATANMU</div><p style="font-size:14px;color:var(--ink)">${s.msg} ${s.c === 'sedang' ? 'Kelompok sensitif batasi olahraga berat di luar.' : s.c === 'baik' ? 'Buka jendela agar sirkulasi rumah lebih segar.' : 'Kelompok sensitif sebaiknya tetap di dalam ruangan.'}</p></div></div>
     <div class="card mt"><div class="row"><b class="mf sp" style="font-size:17px">Parameter udara</b><span class="xs muted">µg/m³ · rata-rata 1 jam</span></div>
